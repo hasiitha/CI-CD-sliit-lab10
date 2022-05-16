@@ -7,13 +7,9 @@ metadata:
   name: test-sliit
 spec:
   ports:
-  - port: 5000
-    protocol: TCP
-    targetPort: 3000
+    - port: 5000
+      protocol: TCP
+      targetPort: 3000
   selector:
     app: test-sliit
-status:
-  loadBalancer: {}
-controlplane $ 
-
-
+  type: LoadBalancer
