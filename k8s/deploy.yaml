@@ -25,7 +25,7 @@ spec:
         app: test-sliit
     spec:
       containers:
-        - image: hasiitha/sliit-test-2022:16a43e10965cfdc00d2096325eb72c81b2d07e73
+        - image: hasiitha/sliit-test-2022:latest
           imagePullPolicy: Always
           name: sliit-test-2022
           resources: {}

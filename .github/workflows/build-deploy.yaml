@@ -3,6 +3,10 @@ name: Docker Build Deploy
 on:
   push:
     branches: [main]
+env:
+  GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+  GKE_ZONE: asia-east2-b
+  GKE_CLUSTER: shopping-app-payment
 
 jobs:
   build:
@@ -23,7 +27,21 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_NAME }}/sliit-test-2022:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_NAME }}/sliit-test-2022:latest
+  Deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Deploy to GKE cluster
+        uses: ameydev/gke-kubectl-action@master
+        env:
+          PROJECT_ID: ${{  env.GKE_PROJECT }}
+          APPLICATION_CREDENTIALS: ${{ secrets.PAYMENT_API_KEY }}
+          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+          ZONE_NAME: ${{ env.GKE_ZONE }}
+        with:
+          args: apply -f ./k8s
 
       # - name: Build the Docker image
       #   run: docker build . --file Dockerfile --tag my-image-name:${{ github.sha }}
