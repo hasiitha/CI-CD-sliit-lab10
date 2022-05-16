@@ -9,7 +9,7 @@ spec:
   ports:
     - port: 5000
       protocol: TCP
-      targetPort: 3000
+      targetPort: 5000
   selector:
     app: test-sliit
   type: LoadBalancer
